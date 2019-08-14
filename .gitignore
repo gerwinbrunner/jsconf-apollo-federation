@@ -1,0 +1,5 @@
+config/development/settings.json
+config/development/settings.sh
+app/yarn-error.log
+
+**/node_modules

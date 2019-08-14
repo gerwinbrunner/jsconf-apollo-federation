@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "@apollo/federation": "0.8.0",
+    "@apollo/gateway": "0.8.1",
+    "@babel/runtime": "^7.5.5",
+    "apollo-boost": "^0.4.4",
+    "apollo-cache-inmemory": "1.6.2",
+    "apollo-client": "2.6.3",
+    "apollo-link": "1.2.12",
+    "apollo-link-context": "1.0.18",
+    "apollo-link-ddp": "2.1.0",
+    "apollo-link-error": "1.1.11",
+    "apollo-link-http": "1.5.15",
+    "apollo-server": "2.8.1",
+    "apollo-server-express": "^2.8.1",
+    "graphql": "^14.4.2",
+    "graphql-tag": "2.10.1",
+    "graphql-tools": "4.0.5",
+    "lodash": "^4.17.15",
+    "yarn": "1.17.3"
+  },
+  "devDependencies": {}
+}

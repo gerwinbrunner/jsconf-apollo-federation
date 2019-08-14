@@ -1,0 +1,106 @@
+#!/bin/bash
+echo ""
+startString=""
+function appName(){
+  appSymbol=$1
+  case "$appSymbol" in
+  a) echo "startMeteorA"
+    ;;
+  b) echo "startMeteorB"
+    ;;
+
+  *) echo "Unknown appSymbol: $1 is ignored" >&2
+    ;;
+  esac
+
+}
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied - Starting "
+    echo "  a -> startMeteor one schema"
+
+    startString="startMeteorA"
+  else
+    # echo "Arguments supplied: $1"
+    apps=$1
+    for (( i=0; i<${#apps}; i++ )); do
+      curVal=$(appName ${apps:$i:1})
+
+      if [ -n "$curVal" ]
+      then
+        if ((i>=1))
+        then
+          startString="$startString & $curVal"
+        else
+          startString="$curVal"
+        fi
+      fi
+    done
+fi
+echo "Starting: $startString"
+echo ""
+echo "##############################"
+echo ""
+
+if [[ -f config/development/settings.sh && -f config/development/settings.json ]]
+then
+  echo "# Required config files found!"
+else
+  echo "# Config files are missing. Please check the README.md for details"
+  echo "#  config/development/settings.sh"
+  echo "#  config/development/settings.json"
+  echo ""
+  exit 1
+fi
+
+function startMeteorA() {
+  echo "startMeteor()"
+  echo $MYPATH/config/development/settings.json
+  cat $MYPATH/config/development/settings.json
+  cd $MYPATH/app-a && meteor yarn install
+  cd $MYPATH/app-a && meteor "$@" --settings $MYPATH/config/development/settings.json --no-release-check #--verbose
+}
+function startMeteorB() {
+  echo "startMeteor()"
+  echo $MYPATH/config/development/settings.json
+  cat $MYPATH/config/development/settings.json
+  cd $MYPATH/app && meteor yarn install
+  cd $MYPATH/app && meteor "$@" --settings $MYPATH/config/development/settings.json --no-release-check #--verbose
+}
+
+function checkYarn() {
+  cd $MYPATH/app-a && meteor yarn 2> /dev/null
+  if [ $? -eq 0  ]; then
+    echo "# yarn installed :)"
+  else
+    echo "# installing yarn"
+    cd $MYPATH/app-a && meteor npm --quiet ---silent  install yarn -g
+  fi
+  cd $MYPATH/app-a && meteor yarn 2> /dev/null
+  if [ $? -ne 0  ]; then
+    echo "# meteor yarn install failed "
+    exit
+  fi
+
+}
+
+
+MYPATH=$(pwd)
+
+echo "# Sourcing ./bin/env/development.sh as environment …"
+source ./config/development/settings.sh
+
+echo ""
+echo "##############################"
+echo "# ADDR $ADDR"
+echo "# Update dependencies ..."
+checkYarn
+
+export ROOT_URL="$ADDR"
+export DEBUG=Rollbar:*
+echo ""
+echo "##############################"
+echo "#  Running meteor: "
+
+#(trap 'kill 0' SIGINT;  startTests & startCypress & startAlfaOauth & startMeteor)
+(trap 'kill 0' SIGINT;  eval $startString)

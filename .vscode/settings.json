@@ -1,0 +1,14 @@
+{
+  "editor.rulers": [120],
+  "editor.formatOnSave": true,
+  "[markdown]": {
+    "editor.formatOnSave": false
+  }
+
+  // "[javascript]": {
+  //   "editor.formatOnSave": true
+  // },
+  // "[javascriptreact]": {
+  //   "editor.formatOnSave": true
+  // }
+}
