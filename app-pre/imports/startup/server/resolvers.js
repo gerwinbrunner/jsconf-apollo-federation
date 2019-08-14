@@ -28,11 +28,9 @@ export const resolvers = {
   },
   Order: {
     customer(order) {
-      // console.log("Order.customer", order);
       return _.find(allCustomers, { id: order.customer.id });
     },
     coffee(order) {
-      // console.log("Order.coffee", order);
       return _.find(allCoffees, { id: order.coffee.id });
     },
   },
