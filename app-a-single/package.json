@@ -16,7 +16,7 @@
     "apollo-link-ddp": "2.1.0",
     "apollo-link-error": "1.1.11",
     "apollo-link-http": "1.5.15",
-    "apollo-server": "2.8.1",
+    "apollo-server": "2.14.2",
     "apollo-server-express": "^2.8.1",
     "graphql": "^14.4.2",
     "graphql-tag": "2.10.1",
